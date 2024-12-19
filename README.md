@@ -1,3 +1,3 @@
 # Music Oasis
 
-Built with React and Supabase.
+Built with React and Supabase
