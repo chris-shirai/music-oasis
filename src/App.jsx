@@ -1,25 +1,17 @@
 import "./App.css";
-import { useEffect, useState } from "react";
-import supabase from "./services/supabase";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import Library from "./pages/Library";
 
 function App() {
-  const [artists, setArtists] = useState([]);
-
-  useEffect(() => {
-    getArtists();
-  }, []);
-
-  async function getArtists() {
-    const { data } = await supabase.from("artists").select();
-    setArtists(data);
-  }
-
   return (
-    <ul>
-      {artists.map((artist) => (
-        <li key={artist.artistName}>{artist.artistName}</li>
-      ))}
-    </ul>
+    <BrowserRouter>
+      <Routes>
+        <Route path="" element={<Home />} />
+        <Route path="library" element={<Library />} />
+        {/* <Route path="*" element={<Home />} /> */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
