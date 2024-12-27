@@ -1,9 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { deleteAlbum, getAlbums } from "../services/apiAlbums";
+import { getArtists } from "../services/apiArtists";
 
 function Library() {
   const queryClient = useQueryClient();
+
+  const { isLoadingArtists, data: artists } = useQuery({
+    queryKey: ["artists"],
+    queryFn: getArtists,
+  });
 
   const { isLoading: isLoadingAlbums, data: albums } = useQuery({
     queryKey: ["albums"],
@@ -21,7 +27,7 @@ function Library() {
     onError: (err) => alert(err.message),
   });
 
-  if (isLoadingAlbums || isDeleting) return <></>;
+  if (isLoadingAlbums || isLoadingArtists || isDeleting) return <></>;
 
   return (
     <div>
@@ -29,14 +35,19 @@ function Library() {
       <br />
       <Link to="/">Home</Link>
       <br />
-      <ul>
-        {albums.map((album) => (
-          <li key={album.id}>
-            <label>{album.albumName}</label>
-            <button onClick={() => mutate(album.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      <table>
+        <tbody>
+          {albums.map((album) => (
+            <tr key={album.id}>
+              <td>{album.albumName}</td>
+              <td>{artists.find((x) => x.id == album.artistID).artistName}</td>
+              <td>
+                <button onClick={() => mutate(album.id)}>Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       {/* <h2>2023</h2>
       <label>Album</label>
       <input type="text" />
