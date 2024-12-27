@@ -1,18 +1,15 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import supabase from "../services/supabase";
+import { getArtists } from "../services/apiArtists";
+import { useQuery } from "@tanstack/react-query";
 
 function Home() {
-  const [artists, setArtists] = useState([]);
+  const { isLoading, data: artists } = useQuery({
+    queryKey: ["artists"],
+    queryFn: getArtists,
+  });
 
-  useEffect(() => {
-    getArtists();
-  }, []);
-
-  async function getArtists() {
-    const { data } = await supabase.from("artists").select();
-    setArtists(data);
-  }
+  if (isLoading) return <></>;
+  //   console.log(x);
 
   return (
     <div>
