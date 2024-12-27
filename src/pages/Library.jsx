@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { deleteAlbum, getAlbums } from "../services/apiAlbums";
 import { getArtists } from "../services/apiArtists";
+import toast from "react-hot-toast";
 
 function Library() {
   const queryClient = useQueryClient();
@@ -19,12 +20,12 @@ function Library() {
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: deleteAlbum,
     onSuccess: () => {
-      // alert("Album successfully deleted");
+      toast.success("Album successfully deleted");
       queryClient.invalidateQueries({
         queryKey: ["albums"],
       });
     },
-    onError: (err) => alert(err.message),
+    onError: (err) => toast.error(err.message),
   });
 
   if (isLoadingAlbums || isLoadingArtists || isDeleting) return <></>;
