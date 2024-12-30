@@ -18,7 +18,8 @@
     "react-firebase-hooks": "^5.1.1",
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^7.0.2",
-    "react-scripts": "4.0.3"
+    "react-scripts": "4.0.3",
+    "react-select": "^5.9.0"
   },
   "resolutions": {
     "react-error-overlay": "6.0.9"

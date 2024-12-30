@@ -25,6 +25,25 @@ export async function createAlbum(newAlbum) {
   return data;
 }
 
+export async function createAlbumWithNewArtist({
+  albumname,
+  artistname,
+  year,
+}) {
+  let { data, error } = await supabase.rpc("CreateAlbumWithNewArtist", {
+    albumname,
+    artistname,
+    year,
+  });
+
+  if (error) {
+    console.error(error);
+    throw new Error("Album could not be created");
+  }
+
+  return data;
+}
+
 export async function deleteAlbum(id) {
   const { data, error } = await supabase.from("albums").delete().eq("id", id);
 
