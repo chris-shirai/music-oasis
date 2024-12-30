@@ -11,7 +11,8 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import CreatableSelect from "react-select/creatable";
 
-function AddAlbum() {
+function AddAlbum({ year }) {
+  console.log(year);
   const [albumName, setAlbumName] = useState("");
   const [artist, setArtist] = useState("");
   const queryClient = useQueryClient();
@@ -60,12 +61,12 @@ function AddAlbum() {
       mutateCreateAlbumWithNewArtist({
         albumname: albumName,
         artistname: artist.value,
-        year: 2020,
+        year: year,
       });
     } else {
       mutateCreateAlbum({
         albumName: albumName,
-        year: 2020,
+        year: year,
         artistID: artist.value,
       });
     }
@@ -108,6 +109,29 @@ function AddAlbum() {
 }
 
 function Library() {
+  const startYear = 2019;
+  const endYear = 2024;
+
+  // Show/hide Create Album form for each year
+  const [itemsShowCreateForm, setItemsShowCreateForm] = useState(
+    Array.from({ length: endYear - startYear + 1 }, (_, i) => endYear - i).map(
+      (year) => ({
+        year: year,
+        showCreateAlbumForm: false,
+      })
+    )
+  );
+
+  const handleShowCreateFormToggle = (id) => {
+    setItemsShowCreateForm((prevItems) =>
+      prevItems.map((item) =>
+        item.year === id
+          ? { ...item, showCreateAlbumForm: !item.showCreateAlbumForm }
+          : item
+      )
+    );
+  };
+
   const queryClient = useQueryClient();
 
   const { isLoadingArtists, data: artists } = useQuery({
@@ -140,20 +164,37 @@ function Library() {
       <br />
       <Link to="/">Home</Link>
       <br />
-      <table>
-        <tbody>
-          {albums.map((album) => (
-            <tr key={album.id}>
-              <td>{album.albumName}</td>
-              <td>{artists.find((x) => x.id == album.artistID)?.artistName}</td>
-              <td>
-                <button onClick={() => mutate(album.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <AddAlbum />
+      {Array.from(
+        { length: endYear - startYear + 1 },
+        (_, i) => endYear - i
+      ).map((year) => (
+        <div key={year}>
+          <h3>{year}</h3>
+          <table>
+            <thead></thead>
+            <tbody>
+              {albums
+                .filter((x) => x.year == year)
+                .map((album) => (
+                  <tr key={album.id}>
+                    <td>{album.albumName}</td>
+                    <td>
+                      {artists.find((x) => x.id == album.artistID)?.artistName}
+                    </td>
+                    <td>
+                      <button onClick={() => mutate(album.id)}>Delete</button>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+          <button onClick={() => handleShowCreateFormToggle(year)}>
+            Add new album
+          </button>
+          {itemsShowCreateForm.find((x) => x.year == year)
+            ?.showCreateAlbumForm && <AddAlbum year={year} />}
+        </div>
+      ))}
     </div>
   );
 }
