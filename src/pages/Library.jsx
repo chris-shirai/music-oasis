@@ -1,8 +1,58 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { deleteAlbum, getAlbums } from "../services/apiAlbums";
+import { createAlbum, deleteAlbum, getAlbums } from "../services/apiAlbums";
 import { getArtists } from "../services/apiArtists";
 import toast from "react-hot-toast";
+import { useState } from "react";
+
+function AddAlbum() {
+  const [albumName, setAlbumName] = useState("test");
+
+  const queryClient = useQueryClient();
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: createAlbum,
+    onSuccess: () => {
+      toast.success("New album successfully created");
+      queryClient.invalidateQueries({ queryKey: ["albums"] });
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!albumName) return;
+
+    const newAlbum = {
+      albumName: albumName,
+      year: 2020,
+      artistID: 2,
+    };
+
+    mutate(newAlbum);
+
+    setAlbumName("");
+  }
+
+  if (isLoading) return <></>;
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h3>Add an album</h3>
+
+      <label>Album name</label>
+      <input
+        type="text"
+        value={albumName}
+        onChange={(e) => {
+          setAlbumName(e.target.value);
+        }}
+      ></input>
+      <button>Add</button>
+    </form>
+  );
+}
 
 function Library() {
   const queryClient = useQueryClient();
@@ -49,15 +99,7 @@ function Library() {
           ))}
         </tbody>
       </table>
-      {/* <h2>2023</h2>
-      <label>Album</label>
-      <input type="text" />
-      <br />
-      <label>Artist</label>
-      <input type="text" />
-      <br />
-      <br />
-      <button>Save</button> */}
+      <AddAlbum />
     </div>
   );
 }

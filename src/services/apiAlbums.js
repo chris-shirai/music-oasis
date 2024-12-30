@@ -11,6 +11,20 @@ export async function getAlbums() {
   return data;
 }
 
+export async function createAlbum(newAlbum) {
+  const { data, error } = await supabase
+    .from("albums")
+    .insert([newAlbum])
+    .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Album could not be created");
+  }
+
+  return data;
+}
+
 export async function deleteAlbum(id) {
   const { data, error } = await supabase.from("albums").delete().eq("id", id);
 
