@@ -27,13 +27,13 @@ export async function createAlbum(newAlbum) {
 
 export async function createAlbumWithNewArtist({
   albumname,
+  albumyear,
   artistname,
-  year,
 }) {
   let { data, error } = await supabase.rpc("CreateAlbumWithNewArtist", {
     albumname,
+    albumyear,
     artistname,
-    year,
   });
 
   if (error) {

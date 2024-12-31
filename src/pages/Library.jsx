@@ -60,8 +60,8 @@ function AddAlbum({ year }) {
     if (artist.__isNew__) {
       mutateCreateAlbumWithNewArtist({
         albumname: albumName,
+        albumyear: year,
         artistname: artist.value,
-        year: year,
       });
     } else {
       mutateCreateAlbum({
@@ -175,8 +175,10 @@ function Library() {
             <tbody>
               {albums
                 .filter((x) => x.year == year)
+                .sort((a, b) => a.yearRank - b.yearRank)
                 .map((album) => (
                   <tr key={album.id}>
+                    <td>{album.yearRank}</td>
                     <td>{album.albumName}</td>
                     <td>
                       {artists.find((x) => x.id == album.artistID)?.artistName}
