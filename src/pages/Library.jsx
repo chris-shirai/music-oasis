@@ -65,9 +65,9 @@ function AddAlbum({ year }) {
       });
     } else {
       mutateCreateAlbum({
-        albumName: albumName,
-        year: year,
-        artistID: artist.value,
+        albumname: albumName,
+        albumyear: year,
+        artistid: artist.value,
       });
     }
 

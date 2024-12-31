@@ -11,11 +11,12 @@ export async function getAlbums() {
   return data;
 }
 
-export async function createAlbum(newAlbum) {
-  const { data, error } = await supabase
-    .from("albums")
-    .insert([newAlbum])
-    .select();
+export async function createAlbum({ albumname, albumyear, artistid }) {
+  let { data, error } = await supabase.rpc("CreateAlbum", {
+    albumname,
+    albumyear,
+    artistid,
+  });
 
   if (error) {
     console.error(error);
