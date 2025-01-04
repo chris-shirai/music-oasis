@@ -62,11 +62,11 @@ export function Sortable({ albums, artists }) {
             <SortableItem
               key={album.id}
               id={album.id}
-              albumName={album.album_name}
+              albumName={album.albumName}
               artistName={
-                artists.find((x) => x.id == album.artist_id)?.artist_name
+                artists.find((x) => x.id == album.artistID)?.artistName
               }
-              yearRank={album.year_rank}
+              yearRank={album.yearRank}
             />
           ))}
         </SortableContext>
@@ -80,34 +80,34 @@ export function Sortable({ albums, artists }) {
     if (active.id !== over.id) {
       setAlbums((items) => {
         const currAlbum = items.find((x) => x.id == active.id);
-        const oldRank = currAlbum.year_rank;
-        const newRank = items.find((x) => x.id == over.id).year_rank;
+        const oldRank = currAlbum.yearRank;
+        const newRank = items.find((x) => x.id == over.id).yearRank;
 
         if (oldRank < newRank) {
           items
-            .filter((x) => x.year_rank > oldRank && x.year_rank <= newRank)
+            .filter((x) => x.yearRank > oldRank && x.yearRank <= newRank)
             .forEach((album) => {
               mutate({
                 albumID: album.id,
-                albumName: album.album_name,
-                yearRank: album.year_rank - 1,
+                albumName: album.albumName,
+                yearRank: album.yearRank - 1,
               });
             });
         } else {
           items
-            .filter((x) => x.year_rank < oldRank && x.year_rank >= newRank)
+            .filter((x) => x.yearRank < oldRank && x.yearRank >= newRank)
             .forEach((album) => {
               mutate({
                 albumID: album.id,
-                albumName: album.album_name,
-                yearRank: album.year_rank + 1,
+                albumName: album.albumName,
+                yearRank: album.yearRank + 1,
               });
             });
         }
 
         mutate({
           albumID: active.id,
-          albumName: currAlbum.album_name,
+          albumName: currAlbum.albumName,
           yearRank: newRank,
         });
 

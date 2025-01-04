@@ -21,7 +21,7 @@ function Home() {
       <br />
       <ul>
         {artists.map((artist) => (
-          <li key={artist.artist_name}>{artist.artist_name}</li>
+          <li key={artist.artistName}>{artist.artistName}</li>
         ))}
       </ul>
     </div>

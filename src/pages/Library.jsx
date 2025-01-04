@@ -79,7 +79,7 @@ function AddAlbum({ year }) {
     return <></>;
 
   var artistList = artists.map((artist) => ({
-    label: artist.artist_name,
+    label: artist.artistName,
     value: artist.id,
   }));
 
@@ -177,7 +177,7 @@ function Library() {
           <Sortable
             albums={albums
               .filter((x) => x.year == year)
-              .sort((a, b) => a.year_rank - b.year_rank)}
+              .sort((a, b) => a.yearRank - b.yearRank)}
             artists={artists}
           />
           {/* {albums
