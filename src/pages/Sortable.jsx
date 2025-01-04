@@ -19,32 +19,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAlbums, updateAlbum } from "../services/apiAlbums";
 import toast from "react-hot-toast";
 
-export function Base() {
-  const { isLoading: isLoadingAlbums, data: albums } = useQuery({
-    queryKey: ["albums"],
-    queryFn: getAlbums,
-  });
-
-  if (isLoadingAlbums) return <></>;
-
-  return (
-    <>
-      <Link to="/">Home</Link>
-      <br />
-      <Link to="/library">Library</Link>
-      <br />
-      <Link to="/sortable">Sortable</Link>
-      <br />
-      <Sortable
-        albums={albums
-          .filter((x) => x.year == 2024)
-          .sort((a, b) => a.yearRank - b.yearRank)}
-      />
-    </>
-  );
-}
-
-export function Sortable({ albums }) {
+export function Sortable({ albums, artists }) {
   const [albumsWorkingCopy, setAlbums] = useState(albums);
 
   useEffect(() => {
@@ -89,7 +64,9 @@ export function Sortable({ albums }) {
               key={album.id}
               id={album.id}
               albumName={album.albumName}
-              artistName={album.artistName}
+              artistName={
+                artists.find((x) => x.id == album.artistID)?.artistName
+              }
               yearRank={album.yearRank}
             />
           ))}

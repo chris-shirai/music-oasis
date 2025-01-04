@@ -10,9 +10,9 @@ import { getArtists } from "../services/apiArtists";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import CreatableSelect from "react-select/creatable";
+import { Sortable } from "./Sortable";
 
 function AddAlbum({ year }) {
-  console.log(year);
   const [albumName, setAlbumName] = useState("");
   const [artist, setArtist] = useState("");
   const queryClient = useQueryClient();
@@ -166,7 +166,6 @@ function Library() {
       <br />
       <Link to="/library">Library</Link>
       <br />
-      <Link to="/sortable">Sortable</Link>
       <br />
       {Array.from(
         { length: endYear - startYear + 1 },
@@ -174,10 +173,14 @@ function Library() {
       ).map((year) => (
         <div key={year}>
           <h3>{year}</h3>
-          <table>
-            <thead></thead>
-            <tbody>
-              {albums
+
+          <Sortable
+            albums={albums
+              .filter((x) => x.year == year)
+              .sort((a, b) => a.yearRank - b.yearRank)}
+            artists={artists}
+          />
+          {/* {albums
                 .filter((x) => x.year == year)
                 .sort((a, b) => a.yearRank - b.yearRank)
                 .map((album) => (
@@ -191,9 +194,8 @@ function Library() {
                       <button onClick={() => mutate(album.id)}>Delete</button>
                     </td>
                   </tr>
-                ))}
-            </tbody>
-          </table>
+                ))} */}
+
           <button onClick={() => handleShowCreateFormToggle(year)}>
             Add new album
           </button>

@@ -17,7 +17,7 @@ function Home() {
       <br />
       <Link to="/library">Library</Link>
       <br />
-      <Link to="/sortable">Sortable</Link>
+      {/* <Link to="/sortable">Sortable</Link> */}
       <br />
       <ul>
         {artists.map((artist) => (
