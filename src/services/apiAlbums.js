@@ -11,15 +11,11 @@ export async function getAlbums() {
   return data;
 }
 
-export async function createAlbum({
-  album_year,
-  new_album_name,
-  new_artist_id,
-}) {
+export async function createAlbum({ albumYear, newAlbumName, artistID }) {
   let { data, error } = await supabase.rpc("CreateAlbum_v2", {
-    album_year,
-    new_album_name,
-    new_artist_id,
+    album_year: albumYear,
+    new_album_name: newAlbumName,
+    new_artist_id: artistID,
   });
 
   if (error) {
@@ -31,14 +27,14 @@ export async function createAlbum({
 }
 
 export async function createAlbumWithNewArtist({
-  album_year,
-  new_album_name,
-  new_artist_name,
+  albumYear,
+  newAlbumName,
+  newArtistName,
 }) {
   let { data, error } = await supabase.rpc("CreateAlbumWithNewArtist_v3", {
-    album_year,
-    new_album_name,
-    new_artist_name,
+    album_year: albumYear,
+    new_album_name: newAlbumName,
+    new_artist_name: newArtistName,
   });
 
   if (error) {
@@ -49,11 +45,11 @@ export async function createAlbumWithNewArtist({
   return data;
 }
 
-export async function updateAlbum({ albumid, albumname, yearrank }) {
+export async function updateAlbum({ albumID, albumName, yearRank }) {
   const { data, error } = await supabase
     .from("albums")
-    .update({ albumName: albumname, yearRank: yearrank })
-    .eq("id", albumid)
+    .update({ album_name: albumName, year_rank: yearRank })
+    .eq("id", albumID)
     .select();
 
   if (error) {

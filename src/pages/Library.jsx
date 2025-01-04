@@ -59,15 +59,15 @@ function AddAlbum({ year }) {
 
     if (artist.__isNew__) {
       mutateCreateAlbumWithNewArtist({
-        album_year: year,
-        new_album_name: albumName,
-        new_artist_name: artist.value,
+        albumYear: year,
+        newAlbumName: albumName,
+        newArtistName: artist.value,
       });
     } else {
       mutateCreateAlbum({
-        album_year: year,
-        new_album_name: albumName,
-        new_artist_id: artist.value,
+        albumYear: year,
+        newAlbumName: albumName,
+        artistID: artist.value,
       });
     }
 

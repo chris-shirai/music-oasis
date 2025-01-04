@@ -14,9 +14,8 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { SortableItem } from "../controls/SortableItem";
-import { Link } from "react-router-dom";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAlbums, updateAlbum } from "../services/apiAlbums";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateAlbum } from "../services/apiAlbums";
 import toast from "react-hot-toast";
 
 export function Sortable({ albums, artists }) {
@@ -81,35 +80,35 @@ export function Sortable({ albums, artists }) {
     if (active.id !== over.id) {
       setAlbums((items) => {
         const currAlbum = items.find((x) => x.id == active.id);
-        const oldRank = currAlbum.yearRank;
-        const newRank = items.find((x) => x.id == over.id).yearRank;
+        const oldRank = currAlbum.year_rank;
+        const newRank = items.find((x) => x.id == over.id).year_rank;
 
         if (oldRank < newRank) {
           items
-            .filter((x) => x.yearRank > oldRank && x.yearRank <= newRank)
+            .filter((x) => x.year_rank > oldRank && x.year_rank <= newRank)
             .forEach((album) => {
               mutate({
-                albumid: album.id,
-                albumname: album.albumName,
-                yearrank: album.yearRank - 1,
+                albumID: album.id,
+                albumName: album.album_name,
+                yearRank: album.year_rank - 1,
               });
             });
         } else {
           items
-            .filter((x) => x.yearRank < oldRank && x.yearRank >= newRank)
+            .filter((x) => x.year_rank < oldRank && x.year_rank >= newRank)
             .forEach((album) => {
               mutate({
-                albumid: album.id,
-                albumname: album.albumName,
-                yearrank: album.yearRank + 1,
+                albumID: album.id,
+                albumName: album.album_name,
+                yearRank: album.year_rank + 1,
               });
             });
         }
 
         mutate({
-          albumid: active.id,
-          albumname: currAlbum.albumName,
-          yearrank: newRank,
+          albumID: active.id,
+          albumName: currAlbum.album_name,
+          yearRank: newRank,
         });
 
         const oldIndex = items.indexOf(items.find((x) => x.id == active.id));
