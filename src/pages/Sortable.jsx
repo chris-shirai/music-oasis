@@ -63,11 +63,11 @@ export function Sortable({ albums, artists }) {
             <SortableItem
               key={album.id}
               id={album.id}
-              albumName={album.albumName}
+              albumName={album.album_name}
               artistName={
-                artists.find((x) => x.id == album.artistID)?.artistName
+                artists.find((x) => x.id == album.artist_id)?.artist_name
               }
-              yearRank={album.yearRank}
+              yearRank={album.year_rank}
             />
           ))}
         </SortableContext>

@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import {
-  createAlbumWithNewArtist,
-  createAlbum,
   deleteAlbum,
   getAlbums,
+  createAlbum,
+  createAlbumWithNewArtist,
 } from "../services/apiAlbums";
 import { getArtists } from "../services/apiArtists";
 import toast from "react-hot-toast";
@@ -59,15 +59,15 @@ function AddAlbum({ year }) {
 
     if (artist.__isNew__) {
       mutateCreateAlbumWithNewArtist({
-        albumname: albumName,
-        albumyear: year,
-        artistname: artist.value,
+        album_year: year,
+        new_album_name: albumName,
+        new_artist_name: artist.value,
       });
     } else {
       mutateCreateAlbum({
-        albumname: albumName,
-        albumyear: year,
-        artistid: artist.value,
+        album_year: year,
+        new_album_name: albumName,
+        new_artist_id: artist.value,
       });
     }
 
@@ -79,7 +79,7 @@ function AddAlbum({ year }) {
     return <></>;
 
   var artistList = artists.map((artist) => ({
-    label: artist.artistName,
+    label: artist.artist_name,
     value: artist.id,
   }));
 
@@ -177,7 +177,7 @@ function Library() {
           <Sortable
             albums={albums
               .filter((x) => x.year == year)
-              .sort((a, b) => a.yearRank - b.yearRank)}
+              .sort((a, b) => a.year_rank - b.year_rank)}
             artists={artists}
           />
           {/* {albums

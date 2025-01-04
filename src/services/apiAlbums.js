@@ -11,11 +11,15 @@ export async function getAlbums() {
   return data;
 }
 
-export async function createAlbum({ albumname, albumyear, artistid }) {
-  let { data, error } = await supabase.rpc("CreateAlbum", {
-    albumname,
-    albumyear,
-    artistid,
+export async function createAlbum({
+  album_year,
+  new_album_name,
+  new_artist_id,
+}) {
+  let { data, error } = await supabase.rpc("CreateAlbum_v2", {
+    album_year,
+    new_album_name,
+    new_artist_id,
   });
 
   if (error) {
@@ -27,14 +31,14 @@ export async function createAlbum({ albumname, albumyear, artistid }) {
 }
 
 export async function createAlbumWithNewArtist({
-  albumname,
-  albumyear,
-  artistname,
+  album_year,
+  new_album_name,
+  new_artist_name,
 }) {
-  let { data, error } = await supabase.rpc("CreateAlbumWithNewArtist", {
-    albumname,
-    albumyear,
-    artistname,
+  let { data, error } = await supabase.rpc("CreateAlbumWithNewArtist_v3", {
+    album_year,
+    new_album_name,
+    new_artist_name,
   });
 
   if (error) {
