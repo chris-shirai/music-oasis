@@ -45,6 +45,21 @@ export async function createAlbumWithNewArtist({
   return data;
 }
 
+export async function updateAlbum({ albumid, albumname, yearrank }) {
+  const { data, error } = await supabase
+    .from("albums")
+    .update({ albumName: albumname, yearRank: yearrank })
+    .eq("id", albumid)
+    .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Album could not be updated");
+  }
+
+  return data;
+}
+
 export async function deleteAlbum(id) {
   const { data, error } = await supabase.from("albums").delete().eq("id", id);
 

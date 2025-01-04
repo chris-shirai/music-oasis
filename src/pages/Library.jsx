@@ -164,6 +164,10 @@ function Library() {
       <br />
       <Link to="/">Home</Link>
       <br />
+      <Link to="/library">Library</Link>
+      <br />
+      <Link to="/sortable">Sortable</Link>
+      <br />
       {Array.from(
         { length: endYear - startYear + 1 },
         (_, i) => endYear - i

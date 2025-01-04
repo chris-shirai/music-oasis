@@ -13,7 +13,12 @@ function Home() {
 
   return (
     <div>
+      <Link to="/">Home</Link>
+      <br />
       <Link to="/library">Library</Link>
+      <br />
+      <Link to="/sortable">Sortable</Link>
+      <br />
       <ul>
         {artists.map((artist) => (
           <li key={artist.artistName}>{artist.artistName}</li>
