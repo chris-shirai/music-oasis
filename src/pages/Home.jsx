@@ -23,7 +23,7 @@ function Home() {
         src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/app-images/profile.jpeg?t=2025-01-04T22%3A15%3A15.750Z"
         width="200"
         height="200"
-        style={{ borderRadius: "10%" }}
+        style={{ borderRadius: "30%" }}
       />
       <ul>
         {artists.map((artist) => (
