@@ -1,11 +1,14 @@
 import supabase from "./supabase";
 
 export async function getAlbums() {
-  const { data, error } = await supabase
-    .from("albums")
-    .select(
-      "id, albumName: album_name, artistID: artist_id, year, yearRank: year_rank, albumArt: album_art"
-    );
+  const { data, error } = await supabase.from("albums").select(
+    `id, 
+    albumName: album_name,
+    artistID: artist_id,
+    year,
+    yearRank: year_rank,
+    albumArt: album_art`
+  );
 
   if (error) {
     console.error(error);
