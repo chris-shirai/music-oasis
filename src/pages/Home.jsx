@@ -1,14 +1,36 @@
 import { Link } from "react-router-dom";
 import { getArtists } from "../services/apiArtists";
 import { useQuery } from "@tanstack/react-query";
+import { getAlbums } from "../services/apiAlbums";
+
+function Album({ album, artistName }) {
+  return (
+    <li key={album.id} width="400">
+      <img
+        src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/app-images/music.png"
+        width="50"
+        height="50"
+      />
+      {album.albumName} {artistName}
+    </li>
+  );
+}
 
 function Home() {
-  const { isLoading, data: artists } = useQuery({
+  const startYear = 2019;
+  const endYear = 2024;
+
+  const { isLoading: isLoadingArtists, data: artists } = useQuery({
     queryKey: ["artists"],
     queryFn: getArtists,
   });
 
-  if (isLoading) return <></>;
+  const { isLoading: isLoadingAlbums, data: albums } = useQuery({
+    queryKey: ["albums"],
+    queryFn: getAlbums,
+  });
+
+  if (isLoadingArtists || isLoadingAlbums) return <></>;
   //   console.log(x);
 
   return (
@@ -25,11 +47,28 @@ function Home() {
         height="200"
         style={{ borderRadius: "30%" }}
       />
-      <ul>
-        {artists.map((artist) => (
-          <li key={artist.artistName}>{artist.artistName}</li>
-        ))}
-      </ul>
+      {Array.from(
+        { length: endYear - startYear + 1 },
+        (_, i) => endYear - i
+      ).map((year) => (
+        <div key={year}>
+          <h3>{year}</h3>
+          <ul>
+            {albums
+              .filter((x) => x.year == year)
+              .sort((a, b) => a.yearRank - b.yearRank)
+              .map((album) => (
+                <Album
+                  key={album.id}
+                  album={album}
+                  artistName={
+                    artists.find((x) => x.id == album.artistID).artistName
+                  }
+                />
+              ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
 }
