@@ -11,7 +11,9 @@ function Album({ album, artistName }) {
         width="50"
         height="50"
       />
-      {album.albumName} {artistName}
+      <label className="text-blue-800">
+        {album.albumName} {artistName}
+      </label>
     </li>
   );
 }
@@ -49,10 +51,10 @@ function Home() {
       />
       {Array.from(
         { length: endYear - startYear + 1 },
-        (_, i) => endYear - i
+        (_, i) => endYear - i,
       ).map((year) => (
         <div key={year}>
-          <h3>{year}</h3>
+          <h1>{year}</h1>
           <ul>
             {albums
               .filter((x) => x.year == year)
