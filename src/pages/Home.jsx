@@ -3,18 +3,40 @@ import { getArtists } from "../services/apiArtists";
 import { useQuery } from "@tanstack/react-query";
 import { getAlbums } from "../services/apiAlbums";
 
-function Album({ album, artistName }) {
+function MinimizedAlbum({ albumName, artistName, albumArt }) {
   return (
-    <li key={album.id} width="400">
-      <img
-        src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/app-images/music.png"
-        width="50"
-        height="50"
-      />
-      <label className="text-blue-800">
-        {album.albumName} {artistName}
-      </label>
-    </li>
+    <div>
+      <img className="rounded-md" src={albumArt} />
+      {/* <label className="font-semibold">{albumName}</label> */}
+      {/* <br /> */}
+      {/* <label className="text-white">{artistName}</label> */}
+    </div>
+  );
+}
+
+function Year({ year, albums, artists }) {
+  if (albums.length < 4) {
+    return <></>;
+  }
+
+  return (
+    <div className=" bg-stone-800 rounded-3xl m-2 ">
+      <h1 className="text-stone-100 text-2xl font-bold absolute text-left p-2">
+        {year}
+      </h1>
+      <div className="grid grid-cols-4 gap-2 p-8">
+        {Array.from({ length: 4 }, (_, i) => i).map((num) => (
+          <MinimizedAlbum
+            key={albums[num].id}
+            albumName={albums[num].albumName}
+            artistName={
+              artists.find((x) => x.id == albums[num].artistID).artistName
+            }
+            albumArt={albums[num].albumArt}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -37,9 +59,13 @@ function Home() {
 
   return (
     <div>
-      <Link to="/">Home</Link>
+      <Link className="text-white" to="/">
+        Home
+      </Link>
       <br />
-      <Link to="/library">Library</Link>
+      <Link className="text-white" to="/library">
+        Library
+      </Link>
       <br />
       {/* <Link to="/sortable">Sortable</Link> */}
       <br />
@@ -53,23 +79,14 @@ function Home() {
         { length: endYear - startYear + 1 },
         (_, i) => endYear - i,
       ).map((year) => (
-        <div key={year}>
-          <h1>{year}</h1>
-          <ul>
-            {albums
-              .filter((x) => x.year == year)
-              .sort((a, b) => a.yearRank - b.yearRank)
-              .map((album) => (
-                <Album
-                  key={album.id}
-                  album={album}
-                  artistName={
-                    artists.find((x) => x.id == album.artistID).artistName
-                  }
-                />
-              ))}
-          </ul>
-        </div>
+        <Year
+          key={year}
+          year={year}
+          albums={albums
+            .filter((x) => x.year == year)
+            .sort((a, b) => a.yearRank - b.yearRank)}
+          artists={artists}
+        />
       ))}
     </div>
   );

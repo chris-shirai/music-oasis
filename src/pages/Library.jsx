@@ -30,7 +30,7 @@ function AddAlbum({ year }) {
         queryClient.invalidateQueries({ queryKey: ["albums"] });
       },
       onError: (err) => toast.error(err.message),
-    }
+    },
   );
 
   const {
@@ -85,9 +85,9 @@ function AddAlbum({ year }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h3>Add an album</h3>
+      <h3 className="text-white">Add an album</h3>
 
-      <label>Album name</label>
+      <label className="text-white">Album name</label>
       <input
         type="text"
         value={albumName}
@@ -96,14 +96,14 @@ function AddAlbum({ year }) {
         }}
       ></input>
       <br />
-      <label>Artist</label>
+      <label className="text-white">Artist</label>
       <CreatableSelect
         value={artist}
         options={artistList}
         onChange={(opt) => setArtist(opt)}
         styles={customStyles}
       />
-      <button>Add</button>
+      <button className="text-white">Add</button>
     </form>
   );
 }
@@ -118,8 +118,8 @@ function Library() {
       (year) => ({
         year: year,
         showCreateAlbumForm: false,
-      })
-    )
+      }),
+    ),
   );
 
   const handleShowCreateFormToggle = (id) => {
@@ -127,8 +127,8 @@ function Library() {
       prevItems.map((item) =>
         item.year === id
           ? { ...item, showCreateAlbumForm: !item.showCreateAlbumForm }
-          : item
-      )
+          : item,
+      ),
     );
   };
 
@@ -160,19 +160,23 @@ function Library() {
 
   return (
     <div>
-      Update music library here.
+      <label className="text-white">Update music library here.</label>
       <br />
-      <Link to="/">Home</Link>
+      <Link className="text-white" to="/">
+        Home
+      </Link>
       <br />
-      <Link to="/library">Library</Link>
+      <Link className="text-white" to="/library">
+        Library
+      </Link>
       <br />
       <br />
       {Array.from(
         { length: endYear - startYear + 1 },
-        (_, i) => endYear - i
+        (_, i) => endYear - i,
       ).map((year) => (
         <div key={year}>
-          <h3>{year}</h3>
+          <h3 className="text-white">{year}</h3>
 
           <Sortable
             albums={albums
@@ -197,7 +201,7 @@ function Library() {
                 ))} */}
 
           <button onClick={() => handleShowCreateFormToggle(year)}>
-            Add new album
+            <label className="text-white">Add new album</label>
           </button>
           {itemsShowCreateForm.find((x) => x.year == year)
             ?.showCreateAlbumForm && <AddAlbum year={year} />}

@@ -12,7 +12,9 @@ export function SortableItem({ id, albumName, artistName, yearRank }) {
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      {yearRank} {albumName} {artistName}
+      <label className="text-white">
+        {yearRank} {albumName} {artistName}
+      </label>
     </div>
   );
 }
