@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, MotionConfig } from "motion/react";
+import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import useMeasure from "react-use-measure";
 import { getArtists } from "../services/apiArtists";
 import { getAlbums } from "../services/apiAlbums";
@@ -8,6 +8,10 @@ import { Link } from "react-router-dom";
 
 function TestPage() {
   let [expanded, setExpanded] = useState(false);
+  const bounceDuration = 0.6;
+  const firstDelay = 0.2;
+  const secondDelay = 0.3;
+  const stiff = 500;
 
   const { isLoading: isLoadingArtists, data: artists } = useQuery({
     queryKey: ["artists"],
@@ -18,6 +22,22 @@ function TestPage() {
     queryKey: ["albums"],
     queryFn: getAlbums,
   });
+
+  const imageVariants = {
+    duration: bounceDuration,
+    type: "spring",
+    bounce: 0.25,
+  };
+
+  const albumNameVariants = {
+    opacity: { ease: "linear" },
+    layout: { duration: 0.3 },
+  };
+
+  const artistVariants = {
+    opacity: { ease: "linear" },
+    layout: { duration: 0.3 },
+  };
 
   if (isLoadingArtists || isLoadingAlbums) return <></>;
 
@@ -34,7 +54,7 @@ function TestPage() {
       <Link className="text-white" to="/test">
         Test Page
       </Link>
-      <MotionConfig transition={{ duration: 0.5 }}>
+      <MotionConfig transition={{ duration: 0.25 }}>
         <div className="flex min-h-screen flex-col p-10 text-zinc-100">
           <div className="mx-auto mt-8 h-full w-full max-w-sm border border-zinc-500">
             <h1 className="mb-8 text-center text-3xl font-thin"></h1>
@@ -50,28 +70,57 @@ function TestPage() {
               <div
                 key={1}
                 className={
-                  expanded ? "grid grid-cols-2 grid-rows-2" : "grid grid-cols-4"
+                  expanded
+                    ? "grid grid-cols-2 grid-rows-2 gap-5"
+                    : "grid grid-cols-4 gap-3"
                 }
               >
-                <motion.div layout transition={{ duration: 0.5 }}>
-                  <img
-                    className="rounded-md"
-                    src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/tyla_tyla.jpg"
-                  />
-                </motion.div>
-                <motion.div layout transition={{ duration: 0.5 }}>
-                  <img
-                    className="rounded-md"
-                    src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/charli_xcx_brat.png?t=2025-01-08T03%3A27%3A40.881Z"
-                  />
-                </motion.div>
-                <motion.div layout transition={{ duration: 0.5 }}>
+                <div>
+                  <motion.div layout transition={imageVariants}>
+                    <img
+                      className="rounded-md"
+                      src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/tyla_tyla.jpg"
+                    />
+                  </motion.div>
+                  <AnimatePresence>
+                    <motion.div
+                      layout
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={albumNameVariants}
+                    >
+                      {expanded ? (
+                        <label className="font-bold">Tyla</label>
+                      ) : (
+                        ""
+                      )}
+                    </motion.div>
+                  </AnimatePresence>
+                  <motion.div
+                    layout
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={artistVariants}
+                  >
+                    {expanded ? <label>TYLA</label> : ""}
+                  </motion.div>
+                </div>
+                <div>
+                  <motion.div layout transition={imageVariants}>
+                    <img
+                      className="rounded-md"
+                      src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/charli_xcx_brat.png?t=2025-01-08T03%3A27%3A40.881Z"
+                    />
+                  </motion.div>
+                  <motion.div layout>{expanded ? "BRAT" : ""}</motion.div>
+                </div>
+                <motion.div layout transition={imageVariants}>
                   <img
                     className="rounded-md"
                     src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/billie_eilish_hit_me_hard_soft_soft.png"
                   />
                 </motion.div>
-                <motion.div layout transition={{ duration: 0.5 }}>
+                <motion.div layout transition={imageVariants}>
                   <img
                     className="rounded-md"
                     src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/sabrina_carpenter_short_n_sweet.png"
