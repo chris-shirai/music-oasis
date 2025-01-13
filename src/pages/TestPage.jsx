@@ -18,10 +18,10 @@ function TestPage() {
     queryFn: getArtists,
   });
 
-  const { isLoading: isLoadingAlbums, data: albums } = useQuery({
-    queryKey: ["albums"],
-    queryFn: getAlbums,
-  });
+  //   const { isLoading: isLoadingAlbums, data: albums } = useQuery({
+  //     queryKey: ["albums"],
+  //     queryFn: getAlbums,
+  //   });
 
   const imageVariants = {
     duration: bounceDuration,
@@ -30,16 +30,45 @@ function TestPage() {
   };
 
   const albumNameVariants = {
-    opacity: { ease: "linear" },
-    layout: { duration: 0.3 },
+    duration: 0.3,
+    delay: 0.2,
+    ease: "linear",
   };
 
   const artistVariants = {
-    opacity: { ease: "linear" },
-    layout: { duration: 0.3 },
+    duration: 0.3,
+    delay: 0.4,
+    ease: "linear",
   };
 
-  if (isLoadingArtists || isLoadingAlbums) return <></>;
+  const albums = [
+    {
+      albumArt:
+        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/tyla_tyla.jpg",
+      albumName: "Tyla",
+      artistName: "Tyla",
+    },
+    {
+      albumArt:
+        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/charli_xcx_brat.png?t=2025-01-08T03%3A27%3A40.881Z",
+      albumName: "BRAT",
+      artistName: "Charli xcx",
+    },
+    {
+      albumArt:
+        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/billie_eilish_hit_me_hard_soft_soft.png",
+      albumName: "HIT ME HARD AND SOFT",
+      artistName: "Billie Eilish",
+    },
+    {
+      albumArt:
+        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/sabrina_carpenter_short_n_sweet.png",
+      albumName: "Short 'n Sweet",
+      artistName: "Sabrina Carpenter",
+    },
+  ];
+
+  if (isLoadingArtists) return <></>;
 
   return (
     <div>
@@ -70,42 +99,61 @@ function TestPage() {
               <div
                 key={1}
                 className={
-                  expanded
-                    ? "grid grid-cols-2 grid-rows-2 gap-5"
-                    : "grid grid-cols-4 gap-3"
+                  expanded ? "grid grid-cols-2 gap-5" : "grid grid-cols-4 gap-3"
                 }
               >
-                <div>
+                {Array.from({ length: 4 }, (_, i) => i).map((num) => (
+                  <div key={num}>
+                    <motion.div layout transition={imageVariants}>
+                      <img className="rounded-md" src={albums[num].albumArt} />
+                    </motion.div>
+                    {expanded ? (
+                      <>
+                        <motion.div
+                          layout
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={albumNameVariants}
+                        >
+                          <label className="font-bold">
+                            {albums[num].albumName}
+                          </label>
+                          <br />
+                          <label>{albums[num].artistName}</label>
+                        </motion.div>
+                      </>
+                    ) : (
+                      <div></div>
+                    )}
+                  </div>
+                ))}
+
+                {/* <div>
                   <motion.div layout transition={imageVariants}>
                     <img
                       className="rounded-md"
                       src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/tyla_tyla.jpg"
                     />
                   </motion.div>
-                  <AnimatePresence>
-                    <motion.div
-                      layout
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={albumNameVariants}
-                    >
-                      {expanded ? (
+                  {expanded ? (
+                    <>
+                      <motion.div
+                        layout
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={albumNameVariants}
+                      >
                         <label className="font-bold">Tyla</label>
-                      ) : (
-                        ""
-                      )}
-                    </motion.div>
-                  </AnimatePresence>
-                  <motion.div
-                    layout
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={artistVariants}
-                  >
-                    {expanded ? <label>TYLA</label> : ""}
-                  </motion.div>
-                </div>
-                <div>
+                        <br />
+                        <label>Tyla</label>
+                      </motion.div>
+                    </>
+                  ) : (
+                    <div></div>
+                  )}
+                </div> */}
+
+                {/* <div>
                   <motion.div layout transition={imageVariants}>
                     <img
                       className="rounded-md"
@@ -125,7 +173,7 @@ function TestPage() {
                     className="rounded-md"
                     src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/sabrina_carpenter_short_n_sweet.png"
                   />
-                </motion.div>
+                </motion.div> */}
               </div>
             </ResizablePanel>
           </div>
