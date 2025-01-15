@@ -8,6 +8,14 @@ import { Link } from "react-router-dom";
 
 function TestPage() {
   let [expanded, setExpanded] = useState(false);
+  let [expanded2, setExpanded2] = useState(false);
+  let [expanded3, setExpanded3] = useState(false);
+
+  let [expandedArr, setExpandedArr] = useState({
+    1: false,
+    2: false,
+    3: false,
+  });
   const bounceDuration = 0.6;
   const firstDelay = 0.2;
   const secondDelay = 0.3;
@@ -41,7 +49,7 @@ function TestPage() {
     ease: "linear",
   };
 
-  const albums = [
+  const albums1 = [
     {
       albumArt:
         "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/tyla_tyla.jpg",
@@ -68,6 +76,60 @@ function TestPage() {
     },
   ];
 
+  const albums2 = [
+    {
+      albumArt:
+        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/karol_g_manana_sera_bonito.png?t=2025-01-15T03%3A30%3A05.193Z",
+      albumName: "MAÑANA SERÁ BONITO",
+      artistName: "KAROL G",
+    },
+    {
+      albumArt:
+        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/kali_uchis_red_moon_in_venus.png?t=2025-01-15T03%3A30%3A36.810Z",
+      albumName: "Red Moon In Venus",
+      artistName: "Kali Uchis",
+    },
+    {
+      albumArt:
+        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/caroline_polachek_desire_i_want_to_turn_into_you.png?t=2025-01-15T03%3A30%3A45.925Z",
+      albumName: "Desire, I Want To Turn Into You",
+      artistName: "Caroline Polachek",
+    },
+    {
+      albumArt:
+        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/luke_combs_gettin_old.png?t=2025-01-15T03%3A30%3A57.368Z",
+      albumName: "Gettin' Old",
+      artistName: "Luke Combs",
+    },
+  ];
+
+  const albums3 = [
+    {
+      albumArt:
+        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/harry_styles_harrys_house.png?t=2025-01-15T03%3A32%3A41.017Z",
+      albumName: "Harry's House",
+      artistName: "Harry Styles",
+    },
+    {
+      albumArt:
+        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/beyonce_renaissance.png?t=2025-01-15T03%3A32%3A34.014Z",
+      albumName: "Renaissance",
+      artistName: "Beyoncé",
+    },
+    {
+      albumArt:
+        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/sza_sos.png?t=2025-01-15T03%3A32%3A24.600Z",
+      albumName: "SOS",
+      artistName: "SZA",
+    },
+    {
+      albumArt:
+        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/the_weeknd_dawn_fm.png?t=2025-01-15T03%3A32%3A16.678Z",
+      albumName: "Dawn FM",
+      artistName: "The Weeknd",
+    },
+  ];
+
   if (isLoadingArtists) return <></>;
 
   return (
@@ -84,30 +146,31 @@ function TestPage() {
         Test Page
       </Link>
       <MotionConfig transition={{ duration: 0.25 }}>
-        <div className="flex min-h-screen flex-col p-10 text-zinc-100">
-          <div className="mx-auto mt-8 h-full w-full max-w-sm border border-zinc-500">
-            <h1 className="mb-8 text-center text-3xl font-thin"></h1>
-            <div className="mb-8 flex justify-between px-8">
-              <button
-                className="border px-2 py-1"
-                onClick={() => setExpanded(!expanded)}
-              >
-                <label>Toggle</label>
-              </button>
-            </div>
+        <div
+          className="m-2 rounded-3xl bg-stone-800 text-zinc-100"
+          onClick={() =>
+            setExpandedArr({ 1: !expandedArr[1], 2: false, 3: false })
+          }
+        >
+          <h1 className="absolute pl-7 pt-4 text-left text-2xl font-bold">
+            2024
+          </h1>
+          <div className="px-9 pb-8 pt-14">
             <ResizablePanel>
               <div
                 key={1}
                 className={
-                  expanded ? "grid grid-cols-2 gap-5" : "grid grid-cols-4 gap-3"
+                  expandedArr[1]
+                    ? "grid grid-cols-2 gap-5"
+                    : "grid grid-cols-4 gap-6"
                 }
               >
                 {Array.from({ length: 4 }, (_, i) => i).map((num) => (
                   <div key={num}>
                     <motion.div layout transition={imageVariants}>
-                      <img className="rounded-md" src={albums[num].albumArt} />
+                      <img className="rounded-md" src={albums1[num].albumArt} />
                     </motion.div>
-                    {expanded ? (
+                    {expandedArr[1] ? (
                       <>
                         <motion.div
                           layout
@@ -116,10 +179,10 @@ function TestPage() {
                           transition={albumNameVariants}
                         >
                           <label className="font-bold">
-                            {albums[num].albumName}
+                            {albums1[num].albumName}
                           </label>
                           <br />
-                          <label>{albums[num].artistName}</label>
+                          <label>{albums1[num].artistName}</label>
                         </motion.div>
                       </>
                     ) : (
@@ -127,62 +190,110 @@ function TestPage() {
                     )}
                   </div>
                 ))}
-
-                {/* <div>
-                  <motion.div layout transition={imageVariants}>
-                    <img
-                      className="rounded-md"
-                      src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/tyla_tyla.jpg"
-                    />
-                  </motion.div>
-                  {expanded ? (
-                    <>
-                      <motion.div
-                        layout
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={albumNameVariants}
-                      >
-                        <label className="font-bold">Tyla</label>
-                        <br />
-                        <label>Tyla</label>
-                      </motion.div>
-                    </>
-                  ) : (
-                    <div></div>
-                  )}
-                </div> */}
-
-                {/* <div>
-                  <motion.div layout transition={imageVariants}>
-                    <img
-                      className="rounded-md"
-                      src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/charli_xcx_brat.png?t=2025-01-08T03%3A27%3A40.881Z"
-                    />
-                  </motion.div>
-                  <motion.div layout>{expanded ? "BRAT" : ""}</motion.div>
-                </div>
-                <motion.div layout transition={imageVariants}>
-                  <img
-                    className="rounded-md"
-                    src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/billie_eilish_hit_me_hard_soft_soft.png"
-                  />
-                </motion.div>
-                <motion.div layout transition={imageVariants}>
-                  <img
-                    className="rounded-md"
-                    src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/sabrina_carpenter_short_n_sweet.png"
-                  />
-                </motion.div> */}
               </div>
             </ResizablePanel>
           </div>
+        </div>
+      </MotionConfig>
 
-          <div className="mx-auto mt-16 max-w-md">
-            <p>
-              Some other content. Lorem ipsum dolor sit amet consecetur
-              adipisicing elit. Repudiandae modi vel odio.
-            </p>
+      <MotionConfig transition={{ duration: 0.25 }}>
+        <div
+          className="m-2 rounded-3xl bg-stone-800 text-zinc-100"
+          onClick={() =>
+            setExpandedArr({ 1: false, 2: !expandedArr[2], 3: false })
+          }
+        >
+          <h1 className="absolute pl-7 pt-4 text-left text-2xl font-bold">
+            2024
+          </h1>
+          <div className="px-9 pb-8 pt-14">
+            <ResizablePanel>
+              <div
+                key={1}
+                className={
+                  expandedArr[2]
+                    ? "grid grid-cols-2 gap-5"
+                    : "grid grid-cols-4 gap-6"
+                }
+              >
+                {Array.from({ length: 4 }, (_, i) => i).map((num) => (
+                  <div key={num}>
+                    <motion.div layout transition={imageVariants}>
+                      <img className="rounded-md" src={albums2[num].albumArt} />
+                    </motion.div>
+                    {expandedArr[2] ? (
+                      <>
+                        <motion.div
+                          layout
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={albumNameVariants}
+                        >
+                          <label className="font-bold">
+                            {albums2[num].albumName}
+                          </label>
+                          <br />
+                          <label>{albums2[num].artistName}</label>
+                        </motion.div>
+                      </>
+                    ) : (
+                      <div></div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </ResizablePanel>
+          </div>
+        </div>
+      </MotionConfig>
+
+      <MotionConfig transition={{ duration: 0.25 }}>
+        <div
+          className="m-2 rounded-3xl bg-stone-800 text-zinc-100"
+          onClick={() =>
+            setExpandedArr({ 1: false, 2: false, 3: !expandedArr[3] })
+          }
+        >
+          <h1 className="absolute pl-7 pt-4 text-left text-2xl font-bold">
+            2024
+          </h1>
+          <div className="px-9 pb-8 pt-14">
+            <ResizablePanel>
+              <div
+                key={1}
+                className={
+                  expandedArr[3]
+                    ? "grid grid-cols-2 gap-5"
+                    : "grid grid-cols-4 gap-6"
+                }
+              >
+                {Array.from({ length: 4 }, (_, i) => i).map((num) => (
+                  <div key={num}>
+                    <motion.div layout transition={imageVariants}>
+                      <img className="rounded-md" src={albums3[num].albumArt} />
+                    </motion.div>
+                    {expandedArr[3] ? (
+                      <>
+                        <motion.div
+                          layout
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={albumNameVariants}
+                        >
+                          <label className="font-bold">
+                            {albums3[num].albumName}
+                          </label>
+                          <br />
+                          <label>{albums3[num].artistName}</label>
+                        </motion.div>
+                      </>
+                    ) : (
+                      <div></div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </ResizablePanel>
           </div>
         </div>
       </MotionConfig>
@@ -199,7 +310,7 @@ function ResizablePanel({ children }) {
       animate={{ height }}
       className="overflow-hidden"
     >
-      <div ref={ref} className="px-8 pb-8">
+      <div ref={ref} className="">
         {children}
       </div>
     </motion.div>
