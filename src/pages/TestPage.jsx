@@ -17,6 +17,7 @@ function TestPage() {
   }
 
   let [expandedArr, setExpandedArr] = useState(obj);
+
   const [listViewIsChecked, setListViewIsChecked] = useState(false);
   const handleChange = () => {
     setListViewIsChecked(!listViewIsChecked);
@@ -31,29 +32,6 @@ function TestPage() {
     queryKey: ["albums"],
     queryFn: getAlbums,
   });
-
-  const bounceDuration = 0.6;
-  const firstDelay = 0.2;
-  const secondDelay = 0.3;
-  const stiff = 500;
-
-  const imageVariants = {
-    duration: bounceDuration,
-    type: "spring",
-    bounce: 0.25,
-  };
-
-  const albumNameVariants = {
-    duration: 0.3,
-    delay: 0.2,
-    ease: "linear",
-  };
-
-  const artistVariants = {
-    duration: 0.3,
-    delay: 0.4,
-    ease: "linear",
-  };
 
   if (isLoadingArtists || isLoadingAlbums) return <></>;
 
@@ -89,8 +67,6 @@ function TestPage() {
           setExpandedArr={setExpandedArr}
           expandedArr={expandedArr}
           listViewIsChecked={listViewIsChecked}
-          imageVariants={imageVariants}
-          albumNameVariants={albumNameVariants}
           year={year}
           artists={artists}
         />
@@ -120,8 +96,6 @@ function YearPanel({
   setExpandedArr,
   expandedArr,
   listViewIsChecked,
-  imageVariants,
-  albumNameVariants,
   year,
   artists,
 }) {
@@ -134,6 +108,18 @@ function YearPanel({
     newObject[year] = !expandedArr[year];
 
     setExpandedArr(newObject);
+  };
+
+  const imageVariants = {
+    duration: 0.6,
+    type: "spring",
+    bounce: 0.25,
+  };
+
+  const albumNameVariants = {
+    duration: 0.3,
+    delay: 0.2,
+    ease: "linear",
   };
 
   return (
