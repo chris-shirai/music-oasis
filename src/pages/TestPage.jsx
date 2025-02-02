@@ -139,7 +139,7 @@ function YearPanel({
                 expandedArr[year]
                   ? "grid grid-cols-2 gap-5"
                   : listViewIsChecked
-                    ? "grid grid-cols-[20%_80%] grid-rows-4 gap-2"
+                    ? "grid grid-cols-[15%_85%] grid-rows-4 gap-2"
                     : "grid grid-cols-4 grid-rows-1 gap-2"
               }
             >
