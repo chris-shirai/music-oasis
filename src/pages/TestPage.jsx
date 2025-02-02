@@ -8,30 +8,34 @@ import { Link } from "react-router-dom";
 import autoprefixer from "autoprefixer";
 
 function TestPage() {
-  let [expandedArr, setExpandedArr] = useState({
-    2024: false,
-    2023: false,
-    // 3: false,
-  });
-  const [isChecked, setIsChecked] = useState(false);
-  const handleChange = () => {
-    setIsChecked(!isChecked);
-  };
+  const startYear = 2021;
+  const endYear = 2024;
 
-  const bounceDuration = 0.6;
-  const firstDelay = 0.2;
-  const secondDelay = 0.3;
-  const stiff = 500;
+  const obj = {};
+  for (let i = startYear; i <= endYear; i++) {
+    obj[i] = false;
+  }
+
+  let [expandedArr, setExpandedArr] = useState(obj);
+  const [listViewIsChecked, setListViewIsChecked] = useState(false);
+  const handleChange = () => {
+    setListViewIsChecked(!listViewIsChecked);
+  };
 
   const { isLoading: isLoadingArtists, data: artists } = useQuery({
     queryKey: ["artists"],
     queryFn: getArtists,
   });
 
-  //   const { isLoading: isLoadingAlbums, data: albums } = useQuery({
-  //     queryKey: ["albums"],
-  //     queryFn: getAlbums,
-  //   });
+  const { isLoading: isLoadingAlbums, data: albums } = useQuery({
+    queryKey: ["albums"],
+    queryFn: getAlbums,
+  });
+
+  const bounceDuration = 0.6;
+  const firstDelay = 0.2;
+  const secondDelay = 0.3;
+  const stiff = 500;
 
   const imageVariants = {
     duration: bounceDuration,
@@ -51,88 +55,7 @@ function TestPage() {
     ease: "linear",
   };
 
-  const albums1 = [
-    {
-      albumArt:
-        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/tyla_tyla.jpg",
-      albumName: "Tyla",
-      artistName: "Tyla",
-    },
-    {
-      albumArt:
-        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/charli_xcx_brat.png?t=2025-01-08T03%3A27%3A40.881Z",
-      albumName: "BRAT",
-      artistName: "Charli xcx",
-    },
-    {
-      albumArt:
-        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/billie_eilish_hit_me_hard_soft_soft.png",
-      albumName: "HIT ME HARD AND SOFT",
-      artistName: "Billie Eilish",
-    },
-    {
-      albumArt:
-        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/sabrina_carpenter_short_n_sweet.png",
-      albumName: "Short 'n Sweet",
-      artistName: "Sabrina Carpenter",
-    },
-  ];
-
-  const albums2 = [
-    {
-      albumArt:
-        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/karol_g_manana_sera_bonito.png?t=2025-01-15T03%3A30%3A05.193Z",
-      albumName: "MAÑANA SERÁ BONITO",
-      artistName: "KAROL G",
-    },
-    {
-      albumArt:
-        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/kali_uchis_red_moon_in_venus.png?t=2025-01-15T03%3A30%3A36.810Z",
-      albumName: "Red Moon In Venus",
-      artistName: "Kali Uchis",
-    },
-    {
-      albumArt:
-        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/caroline_polachek_desire_i_want_to_turn_into_you.png?t=2025-01-15T03%3A30%3A45.925Z",
-      albumName: "Desire, I Want To Turn Into You",
-      artistName: "Caroline Polachek",
-    },
-    {
-      albumArt:
-        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/luke_combs_gettin_old.png?t=2025-01-15T03%3A30%3A57.368Z",
-      albumName: "Gettin' Old",
-      artistName: "Luke Combs",
-    },
-  ];
-
-  const albums3 = [
-    {
-      albumArt:
-        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/harry_styles_harrys_house.png?t=2025-01-15T03%3A32%3A41.017Z",
-      albumName: "Harry's House",
-      artistName: "Harry Styles",
-    },
-    {
-      albumArt:
-        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/beyonce_renaissance.png?t=2025-01-15T03%3A32%3A34.014Z",
-      albumName: "Renaissance",
-      artistName: "Beyoncé",
-    },
-    {
-      albumArt:
-        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/sza_sos.png?t=2025-01-15T03%3A32%3A24.600Z",
-      albumName: "SOS",
-      artistName: "SZA",
-    },
-    {
-      albumArt:
-        "https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/album-images/the_weeknd_dawn_fm.png?t=2025-01-15T03%3A32%3A16.678Z",
-      albumName: "Dawn FM",
-      artistName: "The Weeknd",
-    },
-  ];
-
-  if (isLoadingArtists) return <></>;
+  if (isLoadingArtists || isLoadingAlbums) return <></>;
 
   return (
     <div className="m-0">
@@ -149,25 +72,29 @@ function TestPage() {
       </Link>
       <br />
       <label className="text-white">List?</label>
-      <input type="checkbox" checked={isChecked} onChange={handleChange} />
-      <YearPanel
-        albums1={albums1}
-        setExpandedArr={setExpandedArr}
-        expandedArr={expandedArr}
-        isChecked={isChecked}
-        imageVariants={imageVariants}
-        albumNameVariants={albumNameVariants}
-        year={2024}
+      <input
+        type="checkbox"
+        checked={listViewIsChecked}
+        onChange={handleChange}
       />
-      <YearPanel
-        albums1={albums2}
-        setExpandedArr={setExpandedArr}
-        expandedArr={expandedArr}
-        isChecked={isChecked}
-        imageVariants={imageVariants}
-        albumNameVariants={albumNameVariants}
-        year={2023}
-      />
+      {Array.from(
+        { length: endYear - startYear + 1 },
+        (_, i) => endYear - i,
+      ).map((year) => (
+        <YearPanel
+          key={year}
+          albums1={albums
+            .filter((x) => x.year == year)
+            .sort((a, b) => a.yearRank - b.yearRank)}
+          setExpandedArr={setExpandedArr}
+          expandedArr={expandedArr}
+          listViewIsChecked={listViewIsChecked}
+          imageVariants={imageVariants}
+          albumNameVariants={albumNameVariants}
+          year={year}
+          artists={artists}
+        />
+      ))}
     </div>
   );
 }
@@ -192,11 +119,13 @@ function YearPanel({
   albums1,
   setExpandedArr,
   expandedArr,
-  isChecked,
+  listViewIsChecked,
   imageVariants,
   albumNameVariants,
   year,
+  artists,
 }) {
+  // This function resets the expandedArr, which tells us which year's panel is expanded
   const resetArr = () => {
     const newObject = { ...expandedArr };
     for (const key in newObject) {
@@ -210,7 +139,7 @@ function YearPanel({
   return (
     <MotionConfig transition={{ duration: 0.25 }}>
       <div
-        className="m-0 rounded-3xl bg-stone-800 text-zinc-100"
+        className="mt-3 rounded-3xl bg-stone-800 text-zinc-100"
         onClick={resetArr}
       >
         <h1 className="absolute pl-7 pt-4 text-left text-2xl font-bold">
@@ -223,7 +152,7 @@ function YearPanel({
               className={
                 expandedArr[year]
                   ? "grid grid-cols-2 gap-5"
-                  : isChecked
+                  : listViewIsChecked
                     ? "grid grid-cols-[20%_80%] grid-rows-4 gap-2"
                     : "grid grid-cols-4 grid-rows-1 gap-2"
               }
@@ -249,14 +178,19 @@ function YearPanel({
                             {albums1[num].albumName}
                           </label>
                           <br />
-                          <label>{albums1[num].artistName}</label>
+                          <label>
+                            {
+                              artists.find((x) => x.id == albums1[num].artistID)
+                                .artistName
+                            }
+                          </label>
                         </motion.div>
                       </>
                     ) : (
                       <div></div>
                     )}
                   </div>
-                  {!expandedArr[year] && isChecked ? (
+                  {!expandedArr[year] && listViewIsChecked ? (
                     <motion.div
                       className="pl-2 text-left"
                       layout
@@ -268,7 +202,12 @@ function YearPanel({
                         {albums1[num].albumName}
                       </label>
                       <br />
-                      <label>{albums1[num].artistName}</label>
+                      <label>
+                        {
+                          artists.find((x) => x.id == albums1[num].artistID)
+                            .artistName
+                        }
+                      </label>
                     </motion.div>
                   ) : (
                     <></>
