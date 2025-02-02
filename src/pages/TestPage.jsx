@@ -6,6 +6,7 @@ import { getAlbums } from "../services/apiAlbums";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import autoprefixer from "autoprefixer";
+import React from "react";
 
 function TestPage() {
   const startYear = 2021;
@@ -139,13 +140,13 @@ function YearPanel({
                 expandedArr[year]
                   ? "grid grid-cols-2 gap-5"
                   : listViewIsChecked
-                    ? "grid grid-cols-[15%_85%] grid-rows-4 gap-2"
+                    ? "grid grid-cols-[15%_85%] gap-2"
                     : "grid grid-cols-4 grid-rows-1 gap-2"
               }
             >
               {Array.from({ length: 4 }, (_, i) => i).map((num) => (
-                <>
-                  <div key={num}>
+                <React.Fragment key={num}>
+                  <div>
                     <motion.div layout transition={imageVariants}>
                       <img
                         className={`rounded-md`}
@@ -198,7 +199,7 @@ function YearPanel({
                   ) : (
                     <></>
                   )}
-                </>
+                </React.Fragment>
               ))}
             </div>
           </ResizablePanel>
