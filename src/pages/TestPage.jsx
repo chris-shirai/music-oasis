@@ -9,9 +9,9 @@ import autoprefixer from "autoprefixer";
 
 function TestPage() {
   let [expandedArr, setExpandedArr] = useState({
-    1: false,
-    2: false,
-    3: false,
+    2024: false,
+    2023: false,
+    // 3: false,
   });
   const [isChecked, setIsChecked] = useState(false);
   const handleChange = () => {
@@ -150,180 +150,24 @@ function TestPage() {
       <br />
       <label className="text-white">List?</label>
       <input type="checkbox" checked={isChecked} onChange={handleChange} />
-      <MotionConfig transition={{ duration: 0.25 }}>
-        <div
-          className="m-0 rounded-3xl bg-stone-800 text-zinc-100"
-          onClick={() =>
-            setExpandedArr({ 1: !expandedArr[1], 2: false, 3: false })
-          }
-        >
-          <h1 className="absolute pl-7 pt-4 text-left text-2xl font-bold">
-            2024
-          </h1>
-          <div className="px-5 pb-4 pt-14">
-            <ResizablePanel>
-              <div
-                key={1}
-                className={
-                  expandedArr[1]
-                    ? "grid grid-cols-2 gap-5"
-                    : isChecked
-                      ? "grid grid-cols-[20%_80%] grid-rows-4 gap-2"
-                      : "grid grid-cols-4 grid-rows-1 gap-2"
-                }
-              >
-                {Array.from({ length: 4 }, (_, i) => i).map((num) => (
-                  <>
-                    <div key={num}>
-                      <motion.div layout transition={imageVariants}>
-                        <img
-                          className={`rounded-md`}
-                          src={albums1[num].albumArt}
-                        />
-                      </motion.div>
-                      {expandedArr[1] ? (
-                        <>
-                          <motion.div
-                            layout
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={albumNameVariants}
-                          >
-                            <label className="font-bold">
-                              {albums1[num].albumName}
-                            </label>
-                            <br />
-                            <label>{albums1[num].artistName}</label>
-                          </motion.div>
-                        </>
-                      ) : (
-                        <div></div>
-                      )}
-                    </div>
-                    {!expandedArr[1] && isChecked ? (
-                      <motion.div
-                        className="pl-2 text-left"
-                        layout
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={albumNameVariants}
-                      >
-                        <label className="font-bold">
-                          {albums1[num].albumName}
-                        </label>
-                        <br />
-                        <label>{albums1[num].artistName}</label>
-                      </motion.div>
-                    ) : (
-                      <></>
-                    )}
-                  </>
-                ))}
-              </div>
-            </ResizablePanel>
-          </div>
-        </div>
-      </MotionConfig>
-      <MotionConfig transition={{ duration: 0.25 }}>
-        <div
-          className="m-2 rounded-3xl bg-stone-800 text-zinc-100"
-          onClick={() =>
-            setExpandedArr({ 1: false, 2: !expandedArr[2], 3: false })
-          }
-        >
-          <h1 className="absolute pl-7 pt-4 text-left text-2xl font-bold">
-            2023
-          </h1>
-          <div className="px-9 pb-8 pt-14">
-            <ResizablePanel>
-              <div
-                key={1}
-                className={
-                  expandedArr[2]
-                    ? "grid grid-cols-2 gap-5"
-                    : "grid grid-cols-4 gap-6"
-                }
-              >
-                {Array.from({ length: 4 }, (_, i) => i).map((num) => (
-                  <div key={num}>
-                    <motion.div layout transition={imageVariants}>
-                      <img className="rounded-md" src={albums2[num].albumArt} />
-                    </motion.div>
-                    {expandedArr[2] ? (
-                      <>
-                        <motion.div
-                          layout
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={albumNameVariants}
-                        >
-                          <label className="font-bold">
-                            {albums2[num].albumName}
-                          </label>
-                          <br />
-                          <label>{albums2[num].artistName}</label>
-                        </motion.div>
-                      </>
-                    ) : (
-                      <div></div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </ResizablePanel>
-          </div>
-        </div>
-      </MotionConfig>
-      <MotionConfig transition={{ duration: 0.25 }}>
-        <div
-          className="m-2 rounded-3xl bg-stone-800 text-zinc-100"
-          onClick={() =>
-            setExpandedArr({ 1: false, 2: false, 3: !expandedArr[3] })
-          }
-        >
-          <h1 className="absolute pl-7 pt-4 text-left text-2xl font-bold">
-            2022
-          </h1>
-          <div className="px-9 pb-8 pt-14">
-            <ResizablePanel>
-              <div
-                key={1}
-                className={
-                  expandedArr[3]
-                    ? "grid grid-cols-2 gap-5"
-                    : "grid grid-cols-4 gap-6"
-                }
-              >
-                {Array.from({ length: 4 }, (_, i) => i).map((num) => (
-                  <div key={num}>
-                    <motion.div layout transition={imageVariants}>
-                      <img className="rounded-md" src={albums3[num].albumArt} />
-                    </motion.div>
-                    {expandedArr[3] ? (
-                      <>
-                        <motion.div
-                          layout
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={albumNameVariants}
-                        >
-                          <label className="font-bold">
-                            {albums3[num].albumName}
-                          </label>
-                          <br />
-                          <label>{albums3[num].artistName}</label>
-                        </motion.div>
-                      </>
-                    ) : (
-                      <div></div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </ResizablePanel>
-          </div>
-        </div>
-      </MotionConfig>
+      <YearPanel
+        albums1={albums1}
+        setExpandedArr={setExpandedArr}
+        expandedArr={expandedArr}
+        isChecked={isChecked}
+        imageVariants={imageVariants}
+        albumNameVariants={albumNameVariants}
+        year={2024}
+      />
+      <YearPanel
+        albums1={albums2}
+        setExpandedArr={setExpandedArr}
+        expandedArr={expandedArr}
+        isChecked={isChecked}
+        imageVariants={imageVariants}
+        albumNameVariants={albumNameVariants}
+        year={2023}
+      />
     </div>
   );
 }
@@ -341,6 +185,101 @@ function ResizablePanel({ children }) {
         {children}
       </div>
     </motion.div>
+  );
+}
+
+function YearPanel({
+  albums1,
+  setExpandedArr,
+  expandedArr,
+  isChecked,
+  imageVariants,
+  albumNameVariants,
+  year,
+}) {
+  const resetArr = () => {
+    const newObject = { ...expandedArr };
+    for (const key in newObject) {
+      newObject[key] = false;
+    }
+    newObject[year] = !expandedArr[year];
+
+    setExpandedArr(newObject);
+  };
+
+  return (
+    <MotionConfig transition={{ duration: 0.25 }}>
+      <div
+        className="m-0 rounded-3xl bg-stone-800 text-zinc-100"
+        onClick={resetArr}
+      >
+        <h1 className="absolute pl-7 pt-4 text-left text-2xl font-bold">
+          {year}
+        </h1>
+        <div className="px-5 pb-4 pt-14">
+          <ResizablePanel>
+            <div
+              key={1}
+              className={
+                expandedArr[year]
+                  ? "grid grid-cols-2 gap-5"
+                  : isChecked
+                    ? "grid grid-cols-[20%_80%] grid-rows-4 gap-2"
+                    : "grid grid-cols-4 grid-rows-1 gap-2"
+              }
+            >
+              {Array.from({ length: 4 }, (_, i) => i).map((num) => (
+                <>
+                  <div key={num}>
+                    <motion.div layout transition={imageVariants}>
+                      <img
+                        className={`rounded-md`}
+                        src={albums1[num].albumArt}
+                      />
+                    </motion.div>
+                    {expandedArr[year] ? (
+                      <>
+                        <motion.div
+                          layout
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={albumNameVariants}
+                        >
+                          <label className="font-bold">
+                            {albums1[num].albumName}
+                          </label>
+                          <br />
+                          <label>{albums1[num].artistName}</label>
+                        </motion.div>
+                      </>
+                    ) : (
+                      <div></div>
+                    )}
+                  </div>
+                  {!expandedArr[year] && isChecked ? (
+                    <motion.div
+                      className="pl-2 text-left"
+                      layout
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={albumNameVariants}
+                    >
+                      <label className="font-bold">
+                        {albums1[num].albumName}
+                      </label>
+                      <br />
+                      <label>{albums1[num].artistName}</label>
+                    </motion.div>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              ))}
+            </div>
+          </ResizablePanel>
+        </div>
+      </div>
+    </MotionConfig>
   );
 }
 
