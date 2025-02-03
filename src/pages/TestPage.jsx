@@ -116,78 +116,74 @@ function YearPanel({
         <h1 className="absolute pl-7 pt-4 text-left text-2xl font-bold">
           {year}
         </h1>
-        <div>
-          <ResizablePanel>
-            <div
-              key={1}
-              className={
-                expandedArr[year]
-                  ? "grid grid-cols-2 gap-5"
-                  : listViewIsChecked
-                    ? "grid grid-cols-[15%_85%] gap-2"
-                    : "grid grid-cols-4 grid-rows-1 gap-2"
-              }
-            >
-              {Array.from({ length: 4 }, (_, i) => i).map((num) => (
-                <React.Fragment key={num}>
-                  <div>
-                    <motion.div layout transition={imageVariants}>
-                      <img
-                        className={`rounded-md`}
-                        src={albums1[num].albumArt}
-                      />
-                    </motion.div>
-                    {expandedArr[year] ? (
-                      <>
-                        <motion.div
-                          layout
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={albumNameVariants}
-                        >
-                          <label className="font-bold">
-                            {albums1[num].albumName}
-                          </label>
-                          <br />
-                          <label>
-                            {
-                              artists.find((x) => x.id == albums1[num].artistID)
-                                .artistName
-                            }
-                          </label>
-                        </motion.div>
-                      </>
-                    ) : (
-                      <div></div>
-                    )}
-                  </div>
-                  {!expandedArr[year] && listViewIsChecked ? (
-                    <motion.div
-                      className="pl-2 text-left"
-                      layout
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={albumNameVariants}
-                    >
-                      <label className="font-bold">
-                        {albums1[num].albumName}
-                      </label>
-                      <br />
-                      <label>
-                        {
-                          artists.find((x) => x.id == albums1[num].artistID)
-                            .artistName
-                        }
-                      </label>
-                    </motion.div>
+
+        <ResizablePanel>
+          <div
+            key={1}
+            className={
+              expandedArr[year]
+                ? "grid grid-cols-2 gap-5"
+                : listViewIsChecked
+                  ? "grid grid-cols-[15%_85%] gap-2"
+                  : "grid grid-cols-4 grid-rows-1 gap-2"
+            }
+          >
+            {Array.from({ length: 4 }, (_, i) => i).map((num) => (
+              <React.Fragment key={num}>
+                <div>
+                  <motion.div layout transition={imageVariants}>
+                    <img className={`rounded-md`} src={albums1[num].albumArt} />
+                  </motion.div>
+                  {expandedArr[year] ? (
+                    <>
+                      <motion.div
+                        layout
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={albumNameVariants}
+                      >
+                        <label className="font-bold">
+                          {albums1[num].albumName}
+                        </label>
+                        <br />
+                        <label>
+                          {
+                            artists.find((x) => x.id == albums1[num].artistID)
+                              .artistName
+                          }
+                        </label>
+                      </motion.div>
+                    </>
                   ) : (
-                    <></>
+                    <div></div>
                   )}
-                </React.Fragment>
-              ))}
-            </div>
-          </ResizablePanel>
-        </div>
+                </div>
+                {!expandedArr[year] && listViewIsChecked ? (
+                  <motion.div
+                    className="pl-2 text-left"
+                    layout
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={albumNameVariants}
+                  >
+                    <label className="font-bold">
+                      {albums1[num].albumName}
+                    </label>
+                    <br />
+                    <label>
+                      {
+                        artists.find((x) => x.id == albums1[num].artistID)
+                          .artistName
+                      }
+                    </label>
+                  </motion.div>
+                ) : (
+                  <></>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        </ResizablePanel>
       </div>
     </MotionConfig>
   );
