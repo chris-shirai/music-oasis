@@ -8,6 +8,44 @@ import { Link } from "react-router-dom";
 import autoprefixer from "autoprefixer";
 import React from "react";
 
+function AnimatedTabs() {
+  let tabs = [
+    { id: "art", label: "Art" },
+    { id: "list", label: "List" },
+  ];
+
+  let [activeTab, setActiveTab] = useState(tabs[0].id);
+
+  return (
+    <div className="content-center space-x-1 rounded-full">
+      <span className="h-10 w-fit rounded-full border-2 border-gray-200 px-1 pb-3 pt-2.5">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`${
+              activeTab === tab.id ? "" : "hover:text-white/60"
+            } relative rounded-full px-3 py-1.5 text-sm font-medium text-gray-200 outline-sky-400 transition focus-visible:outline-2`}
+            style={{
+              WebkitTapHighlightColor: "transparent",
+            }}
+          >
+            {activeTab === tab.id && (
+              <motion.span
+                layoutId="bubble"
+                className="absolute inset-0 z-10 bg-gray-200 mix-blend-difference"
+                style={{ borderRadius: 9999 }}
+                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+              />
+            )}
+            {tab.label}
+          </button>
+        ))}
+      </span>
+    </div>
+  );
+}
+
 function TestPage() {
   const startYear = 2021;
   const endYear = 2024;
@@ -39,6 +77,9 @@ function TestPage() {
   return (
     <div className="m-0">
       <img src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/app-images//header.jpeg" />
+      <br />
+      <AnimatedTabs />
+      <br />
       <Link className="text-white" to="/">
         Home
       </Link>
