@@ -5,6 +5,45 @@ import { getAlbums } from "../services/apiAlbums";
 import { AnimatePresence, inertia, motion, spring } from "framer-motion";
 import { useState } from "react";
 
+function AnimatedTabs1() {
+  let tabs1 = [
+    { id: "world", label: "World" },
+    { id: "ny", label: "N.Y." },
+    { id: "business", label: "Business" },
+    { id: "arts", label: "Arts" },
+    { id: "science", label: "Science" },
+  ];
+
+  let [activeTab1, setActiveTab1] = useState(tabs1[0].id);
+
+  return (
+    <div className="flex space-x-1">
+      {tabs1.map((tab) => (
+        <button
+          key={tab.id}
+          onClick={() => setActiveTab1(tab.id)}
+          className={`${
+            activeTab1 === tab.id ? "" : "hover:text-white/60"
+          } relative rounded-full px-3 py-1.5 text-sm font-medium text-white outline-sky-400 transition focus-visible:outline-2`}
+          style={{
+            WebkitTapHighlightColor: "transparent",
+          }}
+        >
+          {activeTab1 === tab.id && (
+            <motion.span
+              layoutId="bubble"
+              className="absolute inset-0 z-10 bg-white mix-blend-difference"
+              style={{ borderRadius: 9999 }}
+              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+            />
+          )}
+          {tab.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function MinimizedAlbum({ albumName, artistName, albumArt }) {
   return (
     <div>
@@ -179,6 +218,7 @@ function Home() {
         height="200"
         style={{ borderRadius: "30%" }}
       />
+      <AnimatedTabs1 />
       {Array.from(
         { length: endYear - startYear + 1 },
         (_, i) => endYear - i,
