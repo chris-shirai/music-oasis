@@ -7,8 +7,15 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import autoprefixer from "autoprefixer";
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { faTableCellsLarge } from "@fortawesome/free-solid-svg-icons";
+import { faSquare } from "@fortawesome/free-solid-svg-icons";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
+import { faList } from "@fortawesome/free-solid-svg-icons";
 
 function AnimatedTabs() {
+  // From https://buildui.com/recipes/animated-tabs
   let tabs = [
     { id: "art", label: "Art" },
     { id: "list", label: "List" },
@@ -17,8 +24,8 @@ function AnimatedTabs() {
   let [activeTab, setActiveTab] = useState(tabs[0].id);
 
   return (
-    <div className="content-center space-x-1 rounded-full">
-      <span className="h-10 w-fit rounded-full border-2 border-gray-200 px-1 pb-3 pt-2.5">
+    <div className="relative -top-4 content-center space-x-1 rounded-full">
+      <span className="h-10 w-fit rounded-full border-2 border-gray-200 bg-black px-1 pb-3 pt-2.5">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -33,11 +40,16 @@ function AnimatedTabs() {
             {activeTab === tab.id && (
               <motion.span
                 layoutId="bubble"
-                className="absolute inset-0 z-10 bg-gray-200 mix-blend-difference"
+                className="absolute inset-0 bg-gray-200 mix-blend-difference"
                 style={{ borderRadius: 9999 }}
                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
               />
             )}
+            {tab.id === "art" ? (
+              <FontAwesomeIcon icon={faImage} />
+            ) : (
+              <FontAwesomeIcon icon={faList} />
+            )}{" "}
             {tab.label}
           </button>
         ))}
@@ -77,8 +89,8 @@ function TestPage() {
   return (
     <div className="m-0">
       <img src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/app-images//header.jpeg" />
-      <br />
       <AnimatedTabs />
+      <hr className="relative -top-8 -z-20 border" />
       <br />
       <Link className="text-white" to="/">
         Home
