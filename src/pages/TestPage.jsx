@@ -38,6 +38,7 @@ function TestPage() {
 
   return (
     <div className="m-0">
+      <img src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/app-images//header.jpeg" />
       <Link className="text-white" to="/">
         Home
       </Link>
@@ -110,7 +111,7 @@ function YearPanel({
   return (
     <MotionConfig transition={{ duration: 0.25 }}>
       <div
-        className="mt-3 rounded-3xl bg-stone-800 text-zinc-100"
+        className="mx-8 mt-3 rounded-3xl bg-stone-800 text-zinc-100"
         onClick={resetArr}
       >
         <h1 className="absolute pl-7 pt-4 text-left text-2xl font-bold">
