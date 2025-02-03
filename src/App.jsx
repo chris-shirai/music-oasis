@@ -6,7 +6,7 @@ import Library from "./pages/Library";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,6 +25,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route path="" element={<Home />} />
           <Route path="library" element={<Library />} />
@@ -52,6 +53,31 @@ function App() {
         }}
       />
     </QueryClientProvider>
+  );
+}
+
+function Header() {
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.pageYOffset);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  return (
+    <header className="fixed w-full bg-black text-white">
+      {scrollPosition > 100 ? (
+        <div>Content for when scrolled</div>
+      ) : (
+        <div>Music Oasis</div>
+      )}
+    </header>
   );
 }
 

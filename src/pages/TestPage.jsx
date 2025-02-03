@@ -111,7 +111,7 @@ function YearPanel({
   return (
     <MotionConfig transition={{ duration: 0.25 }}>
       <div
-        className="mx-8 mt-3 rounded-3xl bg-stone-800 text-zinc-100"
+        className="mx-6 mt-3 rounded-2xl bg-stone-800 text-zinc-100"
         onClick={resetArr}
       >
         <h1 className="absolute pl-7 pt-4 text-left text-2xl font-bold">
