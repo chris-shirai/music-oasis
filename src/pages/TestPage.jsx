@@ -76,22 +76,6 @@ function TestPage() {
   );
 }
 
-function ResizablePanel({ children }) {
-  let [ref, { height }] = useMeasure();
-
-  return (
-    <motion.div
-      initial={{ height: 0 }}
-      animate={{ height }}
-      className="overflow-hidden"
-    >
-      <div ref={ref} className="">
-        {children}
-      </div>
-    </motion.div>
-  );
-}
-
 function YearPanel({
   albums1,
   setExpandedArr,
@@ -132,7 +116,7 @@ function YearPanel({
         <h1 className="absolute pl-7 pt-4 text-left text-2xl font-bold">
           {year}
         </h1>
-        <div className="px-5 pb-4 pt-14">
+        <div>
           <ResizablePanel>
             <div
               key={1}
@@ -206,6 +190,22 @@ function YearPanel({
         </div>
       </div>
     </MotionConfig>
+  );
+}
+
+function ResizablePanel({ children }) {
+  let [ref, { height }] = useMeasure();
+
+  return (
+    <motion.div
+      initial={{ height: 0 }}
+      animate={{ height }}
+      className="overflow-hidden"
+    >
+      <div ref={ref} className="px-5 pb-4 pt-14">
+        {children}
+      </div>
+    </motion.div>
   );
 }
 
