@@ -40,9 +40,9 @@ function AnimatedTabs() {
             {activeTab === tab.id && (
               <motion.span
                 layoutId="bubble"
-                className="absolute inset-0 bg-gray-200 mix-blend-difference"
+                className="absolute inset-0 z-10 bg-gray-200 mix-blend-difference"
                 style={{ borderRadius: 9999 }}
-                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                transition={{ type: "spring", bounce: 0.25, duration: 0.6 }}
               />
             )}
             {tab.id === "art" ? (
