@@ -131,9 +131,13 @@ function YearPanel({
             {Array.from({ length: 4 }, (_, i) => i).map((num) => (
               <React.Fragment key={num}>
                 <div>
-                  <motion.div layout transition={imageVariants}>
-                    <img className={`rounded-md`} src={albums1[num].albumArt} />
-                  </motion.div>
+                  <motion.img
+                    layout
+                    transition={imageVariants}
+                    style={{ borderRadius: 6 }}
+                    src={albums1[num].albumArt}
+                  />
+
                   {expandedArr[year] ? (
                     <>
                       <motion.div
