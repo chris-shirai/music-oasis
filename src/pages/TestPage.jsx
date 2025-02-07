@@ -14,11 +14,11 @@ import { faSquare } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { faList } from "@fortawesome/free-solid-svg-icons";
 
-function AnimatedTabs() {
+function AnimatedTabs({ listViewIsChecked, setListViewIsChecked }) {
   // From https://buildui.com/recipes/animated-tabs
   let tabs = [
-    { id: "art", label: "Art" },
-    { id: "list", label: "List" },
+    { id: "art", label: "Art", listViewIsChecked: false },
+    { id: "list", label: "List", listViewIsChecked: true },
   ];
 
   let [activeTab, setActiveTab] = useState(tabs[0].id);
@@ -29,7 +29,10 @@ function AnimatedTabs() {
         {tabs.map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
+            onClick={() => {
+              setListViewIsChecked(tab.listViewIsChecked);
+              setActiveTab(tab.id);
+            }}
             className={`${
               activeTab === tab.id ? "" : "hover:text-white/60"
             } relative rounded-full px-3 py-1.5 text-sm font-medium text-gray-200 outline-sky-400 transition focus-visible:outline-2`}
@@ -89,7 +92,10 @@ function TestPage() {
   return (
     <div className="m-0">
       <img src="https://hbebmtiagssdrckajspr.supabase.co/storage/v1/object/public/app-images//header.jpeg" />
-      <AnimatedTabs />
+      <AnimatedTabs
+        listViewIsChecked={listViewIsChecked}
+        setListViewIsChecked={setListViewIsChecked}
+      />
       <hr className="relative -top-8 -z-20 border" />
       <br />
       <Link className="text-white" to="/">
@@ -104,12 +110,6 @@ function TestPage() {
         Test Page
       </Link>
       <br />
-      <label className="text-white">List?</label>
-      <input
-        type="checkbox"
-        checked={listViewIsChecked}
-        onChange={handleChange}
-      />
       {Array.from(
         { length: endYear - startYear + 1 },
         (_, i) => endYear - i,
